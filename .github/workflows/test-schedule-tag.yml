@@ -37,24 +37,3 @@ jobs:
           # Create and push the new tag
           git tag -a $TAG_NAME -m "Nightly build for ${DATE}"
           git push origin $TAG_NAME
-
-# name: Daily Create Tag
-
-# on: [push]
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout branch
-#         uses: actions/checkout@v4
-
-#       - name: Create tag if necessary
-#         id: daily-version
-#         uses: fregante/daily-version-action@v2
-#         with:
-#           prefix: nightly-
-#       - name: Created?
-#         if: steps.daily-version.outputs.created
-#         run: echo "Created ${{ steps.daily-version.outputs.version }}"
