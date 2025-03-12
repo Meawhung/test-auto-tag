@@ -16,10 +16,10 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history for tags
 
-      # - name: Configure Git
-      #   run: |
-      #     git config user.name "GitHub Actions"
-      #     git config user.email "actions@github.com"
+      - name: Configure Git
+        run: |
+          git config user.name "meawhung"
+          git config user.email "meawhung@gmail.com"
 
       - name: Create nightly tag
         run: |
