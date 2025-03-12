@@ -46,7 +46,7 @@ jobs:
       - name: Checkout branch "master"
         uses: actions/checkout@v2
         with:
-          ref: "master"
+          ref: "main"
       - name: Release snapshot
         id: release-snapshot
         uses: actions/create-release@latest
