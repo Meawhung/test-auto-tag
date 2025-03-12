@@ -1,20 +1,59 @@
 name: Daily Create Tag
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
-  deploy:
+  create-nightly-tag:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout branch
+      - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Create tag if necessary
-        id: daily-version
-        uses: fregante/daily-version-action@v2
         with:
-          prefix: nightly-
-      - name: Created?
-        if: steps.daily-version.outputs.created
-        run: echo "Created ${{ steps.daily-version.outputs.version }}"
+          fetch-depth: 0 # Fetch all history for tags
+
+      # - name: Configure Git
+      #   run: |
+      #     git config user.name "GitHub Actions"
+      #     git config user.email "actions@github.com"
+
+      - name: Create nightly tag
+        run: |
+          # Get current date in YYYY-MM-DD format
+          DATE=$(date -u +"%Y-%m-%d")
+
+          # Create tag name
+          TAG_NAME="nightly-${DATE}"
+
+          # Delete the tag if it already exists (locally and remotely)
+          git tag -d $TAG_NAME 2>/dev/null || true
+          git push --delete origin $TAG_NAME 2>/dev/null || true
+
+          # Create and push the new tag
+          git tag -a $TAG_NAME -m "Nightly build for ${DATE}"
+          git push origin $TAG_NAME
+
+# name: Daily Create Tag
+
+# on: [push]
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout branch
+#         uses: actions/checkout@v4
+
+#       - name: Create tag if necessary
+#         id: daily-version
+#         uses: fregante/daily-version-action@v2
+#         with:
+#           prefix: nightly-
+#       - name: Created?
+#         if: steps.daily-version.outputs.created
+#         run: echo "Created ${{ steps.daily-version.outputs.version }}"
