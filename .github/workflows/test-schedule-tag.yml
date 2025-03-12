@@ -30,10 +30,9 @@
 
 name: Nightly Snapshot
 
-# on:
-#   schedule:
-#     - cron: "51 * * * *"
-on: [push]
+on:
+  schedule:
+    - cron: "*/5 * * * *"
 
 jobs:
   deploy:
